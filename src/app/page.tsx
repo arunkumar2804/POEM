@@ -204,15 +204,16 @@ export default function WeddingWebsite() {
       storyLines.forEach((line, i) => {
         storyTimeline.fromTo(line, 
           { opacity: 0, y: 50, filter: "blur(20px)" },
-          { opacity: 1, y: 0, filter: "blur(0px)", duration: 1 }
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 2 },
+          i === 0 ? "+=0.5" : "+=1.5"
         );
         
         if (i < storyLines.length - 1) {
-          // Fade out early for the first two lines
-          storyTimeline.to(line, { opacity: 0, y: -50, filter: "blur(20px)", duration: 1 }, "+=0.5");
+          // Keep it on screen longer, then fade out
+          storyTimeline.to(line, { opacity: 0, y: -50, filter: "blur(20px)", duration: 2 }, "+=2");
         } else {
-          // Keep the final line on screen much longer, then fade out smoothly
-          storyTimeline.to(line, { opacity: 0, scale: 1.1, filter: "blur(20px)", duration: 1 }, "+=2");
+          // Keep the final line on screen much longer before fading out
+          storyTimeline.to(line, { opacity: 0, scale: 1.1, filter: "blur(20px)", duration: 2 }, "+=4");
         }
       });
 
@@ -349,7 +350,7 @@ export default function WeddingWebsite() {
         </section>
 
         {/* SCENE 3: POETIC STORYTELLING */}
-        <section className="story-section h-[400vh] relative">
+        <section className="story-section h-[600vh] relative">
           <div className="sticky top-0 h-screen flex justify-center items-center overflow-hidden px-6">
             <div className="story-line absolute inset-0 flex items-center justify-center">
               <h2 className="font-serif text-4xl md:text-7xl lg:text-8xl text-beige italic font-light text-center">
