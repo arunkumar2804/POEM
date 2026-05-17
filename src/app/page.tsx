@@ -22,11 +22,11 @@ function IntroLoader({ onComplete }: { onComplete: () => void }) {
     const sequence = async () => {
       await new Promise((r) => setTimeout(r, 1000));
       setStep(1); 
-      await new Promise((r) => setTimeout(r, 3500));
+      await new Promise((r) => setTimeout(r, 2500));
       setStep(2); 
-      await new Promise((r) => setTimeout(r, 3500));
+      await new Promise((r) => setTimeout(r, 2500));
       setStep(3); 
-      await new Promise((r) => setTimeout(r, 4000));
+      await new Promise((r) => setTimeout(r, 3000));
       setStep(4); 
       await new Promise((r) => setTimeout(r, 3000));
       onComplete();
@@ -191,33 +191,23 @@ export default function WeddingWebsite() {
       });
 
       // 3. Poetic Storytelling Lines
+      const storyTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".story-section",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1,
+        }
+      });
+
       const storyLines = gsap.utils.toArray(".story-line") as HTMLElement[];
       storyLines.forEach((line, i) => {
-        gsap.fromTo(line, 
-          { opacity: 0, y: 100, filter: "blur(20px)" },
-          { 
-            opacity: 1, 
-            y: 0, 
-            filter: "blur(0px)",
-            scrollTrigger: {
-              trigger: line,
-              start: "top 80%",
-              end: "top 40%",
-              scrub: 1,
-            }
-          }
-        );
-        gsap.to(line, {
-          opacity: 0,
-          y: -100,
-          filter: "blur(20px)",
-          scrollTrigger: {
-            trigger: line,
-            start: "top 30%",
-            end: "bottom 0%",
-            scrub: 1,
-          }
-        });
+        storyTimeline
+          .fromTo(line, 
+            { opacity: 0, y: 100, filter: "blur(20px)" },
+            { opacity: 1, y: 0, filter: "blur(0px)", duration: 1 }
+          )
+          .to(line, { opacity: 0, y: -100, filter: "blur(20px)", duration: 1 }, "+=0.5");
       });
 
       // 4. Showcase Parallax Depths
@@ -280,12 +270,21 @@ export default function WeddingWebsite() {
       });
 
       // 8. Ending Fade
-      gsap.to(".ending-content", {
-        opacity: 0,
-        scale: 1.1,
-        ease: "none",
-        scrollTrigger: { trigger: ".ending-section", start: "top top", end: "bottom top", scrub: 1, pin: true }
-      });
+      gsap.fromTo(".ending-content", 
+        { opacity: 0, scale: 0.9, filter: "blur(20px)" },
+        {
+          opacity: 1,
+          scale: 1,
+          filter: "blur(0px)",
+          ease: "none",
+          scrollTrigger: { 
+            trigger: ".ending-section", 
+            start: "center center", 
+            end: "bottom bottom", 
+            scrub: 1 
+          }
+        }
+      );
 
     }, containerRef);
 
@@ -344,7 +343,7 @@ export default function WeddingWebsite() {
         </section>
 
         {/* SCENE 3: POETIC STORYTELLING */}
-        <section className="story-section h-[300vh] relative">
+        <section className="story-section h-[400vh] relative">
           <div className="sticky top-0 h-screen flex flex-col justify-center items-center overflow-hidden px-6">
             <h2 className="story-line absolute font-serif text-4xl md:text-7xl lg:text-8xl text-beige italic font-light text-center">
               "In silence, we met."
