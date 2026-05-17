@@ -202,12 +202,18 @@ export default function WeddingWebsite() {
 
       const storyLines = gsap.utils.toArray(".story-line") as HTMLElement[];
       storyLines.forEach((line, i) => {
-        storyTimeline
-          .fromTo(line, 
-            { opacity: 0, y: 100, filter: "blur(20px)" },
-            { opacity: 1, y: 0, filter: "blur(0px)", duration: 1 }
-          )
-          .to(line, { opacity: 0, y: -100, filter: "blur(20px)", duration: 1 }, "+=0.5");
+        storyTimeline.fromTo(line, 
+          { opacity: 0, y: 50, filter: "blur(20px)" },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 1 }
+        );
+        
+        if (i < storyLines.length - 1) {
+          // Fade out early for the first two lines
+          storyTimeline.to(line, { opacity: 0, y: -50, filter: "blur(20px)", duration: 1 }, "+=0.5");
+        } else {
+          // Keep the final line on screen much longer, then fade out smoothly
+          storyTimeline.to(line, { opacity: 0, scale: 1.1, filter: "blur(20px)", duration: 1 }, "+=2");
+        }
       });
 
       // 4. Showcase Parallax Depths
@@ -344,16 +350,22 @@ export default function WeddingWebsite() {
 
         {/* SCENE 3: POETIC STORYTELLING */}
         <section className="story-section h-[400vh] relative">
-          <div className="sticky top-0 h-screen flex flex-col justify-center items-center overflow-hidden px-6">
-            <h2 className="story-line absolute font-serif text-4xl md:text-7xl lg:text-8xl text-beige italic font-light text-center">
-              "In silence, we met."
-            </h2>
-            <h2 className="story-line absolute font-serif text-4xl md:text-7xl lg:text-8xl text-beige italic font-light text-center">
-              "In laughter, we stayed."
-            </h2>
-            <h2 className="story-line absolute font-serif text-5xl md:text-8xl lg:text-9xl text-champagne gold-glow italic font-light text-center">
-              "In love, we became POEM."
-            </h2>
+          <div className="sticky top-0 h-screen flex justify-center items-center overflow-hidden px-6">
+            <div className="story-line absolute inset-0 flex items-center justify-center">
+              <h2 className="font-serif text-4xl md:text-7xl lg:text-8xl text-beige italic font-light text-center">
+                "In silence, we met."
+              </h2>
+            </div>
+            <div className="story-line absolute inset-0 flex items-center justify-center">
+              <h2 className="font-serif text-4xl md:text-7xl lg:text-8xl text-beige italic font-light text-center">
+                "In laughter, we stayed."
+              </h2>
+            </div>
+            <div className="story-line absolute inset-0 flex items-center justify-center">
+              <h2 className="font-serif text-5xl md:text-8xl lg:text-9xl text-champagne gold-glow italic font-light text-center">
+                "In love, we became POEM."
+              </h2>
+            </div>
           </div>
         </section>
 
