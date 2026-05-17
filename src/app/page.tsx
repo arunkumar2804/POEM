@@ -203,14 +203,14 @@ export default function WeddingWebsite() {
       const storyLines = gsap.utils.toArray(".story-line") as HTMLElement[];
       storyLines.forEach((line, i) => {
         storyTimeline.fromTo(line, 
-          { opacity: 0, y: 50, filter: "blur(20px)" },
-          { opacity: 1, y: 0, filter: "blur(0px)", duration: 2 },
+          { opacity: 0, filter: "blur(20px)" },
+          { opacity: 1, filter: "blur(0px)", duration: 2 },
           i === 0 ? "+=0.5" : "+=1.5"
         );
         
         if (i < storyLines.length - 1) {
-          // Keep it on screen longer, then fade out
-          storyTimeline.to(line, { opacity: 0, y: -50, filter: "blur(20px)", duration: 2 }, "+=2");
+          // Keep it on screen longer, then fade out in place
+          storyTimeline.to(line, { opacity: 0, filter: "blur(20px)", duration: 2 }, "+=2");
         } else {
           // Keep the final line on screen much longer before fading out
           storyTimeline.to(line, { opacity: 0, scale: 1.1, filter: "blur(20px)", duration: 2 }, "+=4");
